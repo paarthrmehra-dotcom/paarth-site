@@ -1,8 +1,0 @@
----
-import { site } from '../site.config';
----
-
-<p class="status">
-  <span class:list={['status-dot', { 'is-off': !site.available }]} aria-hidden="true"></span>
-  {site.available ? site.availabilityNote : 'Currently booked up'}
-</p>
