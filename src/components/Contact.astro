@@ -1,0 +1,60 @@
+---
+import Marker from './Marker.astro';
+import { site } from '../site.config';
+---
+
+<section class="band band-ink" id="contact">
+  <div class="shell">
+    <Marker label="Work with me" />
+    <h2 style="max-width: 22ch;">Book a call, or tell me what you are working on.</h2>
+    <p class="prose" style="margin-top: 1.25rem; color: var(--text-soft); max-width: 50ch;">
+      A thirty-minute call is the fastest way to work out whether I am useful to you. If you would
+      rather write first, a paragraph about where you are stuck is plenty.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn" href={site.calendly} target="_blank" rel="noopener">Book 30 minutes</a>
+      <a class="btn btn-quiet" href={`mailto:${site.email}`}>
+        Email instead
+      </a>
+    </div>
+
+    {
+      site.web3formsKey && (
+        <form class="form" action="https://api.web3forms.com/submit" method="POST" style="margin-top: 3rem;">
+          <input type="hidden" name="access_key" value={site.web3formsKey} />
+          <input type="hidden" name="subject" value="New enquiry from paarthmehra.com" />
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="field">
+            <label class="label" for="name">Name</label>
+            <input class="input" type="text" id="name" name="name" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label class="label" for="topic">What is this about?</label>
+            <select class="input" id="topic" name="topic">
+              <option>Consulting or VC interviews</option>
+              <option>MBA admissions</option>
+              <option>Resume and profile review</option>
+              <option>Something else</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="message">Where are you right now?</label>
+            <textarea class="input" id="message" name="message" required placeholder="Your background, your target, and your timeline."></textarea>
+          </div>
+
+          <button class="btn" type="submit">Send message</button>
+          <p class="form-note">Or email {site.email} directly.</p>
+        </form>
+      )
+    }
+  </div>
+</section>
