@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../../layouts/Base.astro';
+import Register from '../../../components/Register.astro';
+import { topics } from '../../../site.config';
+
+export const getStaticPaths = (async () => {
+  const all = await getCollection('writing', ({ data }) => !data.draft);
+  return Object.entries(topics).map(([key, topic]) => ({
+    params: { topic: topic.slug },
+    props: {
+      topic,
+      posts: all
+        .filter((post) => post.data.topic === key)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { topic, posts } = Astro.props;
+---
+
+<Base title={topic.label} description={topic.blurb}>
+  <section class="shell band-tight" style="padding-top: clamp(3rem, 8vw, 5.5rem);">
+    <h1>{topic.label}</h1>
+    <p class="lede prose" style="margin-top: 1.5rem;">{topic.blurb}</p>
+  </section>
+
+  <section class="shell band-tight">
+    <nav class="filter" aria-label="Filter by topic">
+      <a href="/writing">All</a>
+      {
+        Object.values(topics).map((t) => (
+          <a
+            href={`/writing/topic/${t.slug}/`}
+            aria-current={t.slug === topic.slug ? 'page' : undefined}
+          >
+            {t.label}
+          </a>
+        ))
+      }
+    </nav>
+    {
+      posts.length > 0 ? (
+        <Register posts={posts} level="h2" />
+      ) : (
+        <p class="prose">Nothing published in this stream yet.</p>
+      )
+    }
+  </section>
+</Base>

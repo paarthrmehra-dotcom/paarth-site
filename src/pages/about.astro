@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import Marker from '../components/Marker.astro';
+import Credentials from '../components/Credentials.astro';
+import Portrait from '../components/Portrait.astro';
+import { site } from '../site.config';
+---
+
+<Base title="About" description={site.description}>
+  <section class="shell band-tight" style="padding-top: clamp(3rem, 8vw, 5.5rem);">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+      <Portrait size="sm" />
+      <h1>About</h1>
+    </div>
+    <div class="prose stack" style="margin-top: 2.5rem;">
+      <p class="lede">
+        I am a venture capital investor at Merak Capital in Riyadh, where I work across the Tech and
+        Gaming funds. Before that I spent close to seven years at Bain &amp; Company. I write about
+        how both of those worlds actually operate, and I coach people trying to get into them.
+      </p>
+
+      <p>
+        At Merak I own the deal lifecycle end to end — sourcing across the GCC and global tech and
+        gaming ecosystems, running commercial and competitive diligence, building the investment
+        thesis and taking it to committee, then supporting terms and closing. After the wire, the
+        work changes shape: I partner with founders on strategy, follow-on fundraising, hiring, and
+        the partnerships that open commercial doors in the region. My coverage is Saudi Arabia, the
+        UAE, and the wider GCC.
+      </p>
+
+      <p>
+        Before venture I was at Bain, most recently as a Senior Project Leader running deal and
+        strategy work for private equity clients across healthcare, fintech, and retail and
+        e-commerce, with teams of six to eight. Much of it was commercial due diligence on
+        acquisition and exit decisions, alongside growth and go-to-market strategy across the UAE,
+        Saudi Arabia, and Southeast Asia. Earlier in that stretch I built portfolio strategy for a
+        sovereign wealth fund and screened targets across APAC and EMEA.
+      </p>
+
+      <p>
+        I am a CFA Charterholder with an MBA in finance and strategy from IIM Udaipur, including an
+        exchange at EDHEC, and a B.Com from Hansraj College.
+      </p>
+
+      <p>
+        The coaching started at Board Infinity, where I worked with more than twenty IIM graduates on
+        resumes and interview preparation. I kept doing it because the gap between a strong candidate
+        and a successful one is usually small, specific, and fixable — and almost nobody tells them
+        what it is. Having screened candidates from the hiring side and sat the same interviews
+        myself, I can usually name it in one session.
+      </p>
+
+      <p>
+        <strong>A note from Claude:</strong> everything above is drawn from your LinkedIn profile.
+        It is accurate but generic in voice. Rewrite it in your own — particularly the last
+        paragraph, where the reason you coach is the thing a prospective client is really reading
+        for.
+      </p>
+    </div>
+  </section>
+
+  <section class="shell band-tight">
+    <Marker label="In short" />
+    <Credentials />
+  </section>
+
+  <section class="shell band-tight">
+    <Marker label="Elsewhere" />
+    <ul class="prose" style="list-style: none; padding: 0;">
+      {
+        site.links.map((link) => (
+          <li style="margin-top: 0.6rem;">
+            <a href={link.href} rel="me noopener">{link.label}</a>
+          </li>
+        ))
+      }
+      <li style="margin-top: 0.6rem;">
+        <a href={site.calendly} target="_blank" rel="noopener">Book a call</a>
+      </li>
+    </ul>
+  </section>
+</Base>

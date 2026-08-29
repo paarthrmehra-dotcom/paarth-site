@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import { topics, site } from '../../site.config';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const topic = topics[post.data.topic];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article>
+    <header class="shell article-head">
+      <div class="article-meta">
+        <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+        <a href={`/writing/topic/${topic.slug}/`}>{topic.label}</a>
+        {post.data.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class="lede prose" style="margin-top: 1.5rem;">{post.data.description}</p>
+    </header>
+
+    <div class="shell article-body">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <div class="prose" style="margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--hairline);">
+        <p>
+          If you are working through this yourself,
+          <a href={site.calendly} target="_blank" rel="noopener">book a 30-minute call</a>.
+        </p>
+        <p style="margin-top: 1rem;"><a href="/writing">&larr; All writing</a></p>
+      </div>
+    </div>
+  </article>
+</Base>
